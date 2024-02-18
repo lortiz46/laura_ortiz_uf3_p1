@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\DB;
 
 
 class FilmController extends Controller
@@ -11,7 +12,14 @@ class FilmController extends Controller
      * Read films from storage
      */
     public static function readFilms(): array {
-        $films = Storage::json('/public/films.json');
+        $filmsfromStorage = json_decode(Storage::get('public/films.json'), true);
+        $filmsfromDB = DB::table('films')->get()->toArray();
+        $filmsfromDBArray = [];
+            foreach ($filmsfromDB as $film) {
+            $filmsfromDBArray[] = (array) $film;
+        }
+ 
+        $films = array_merge($filmsfromStorage, $filmsfromDBArray);
         return $films;
     }
     /**

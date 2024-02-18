@@ -58,14 +58,35 @@
         
     </form>
 
-    
     @if(isset($Error))
         <div class="alert alert-danger mt-4">
             <h2 class="text-center">{{ $Error }}</h2>
         </div>
     @endif
 
-    
+
+@section('title', 'Lista de actores')
+@section('content')
+
+    <h1>Lista de actores</h1>
+        <ul>
+            <li><a href="/actorout/listActors">Actores</a></li>
+            <li><a href="/actorout/countActors">Recuento actores</a></li>
+        </ul>
+
+    <h1>Buscar actores por criterio</h1>
+    <form class="mt-4" action="{{ route('listActorsByDecade') }}" method="get">
+        
+        <label>Decada nacimiento</label>
+        <select name="decade" id="decade">
+            <option value="1">1980-1989</option>
+            <option value="2">1990-1999</option>
+            <option value="3">2000-2009</option>
+            <option value="4">2010-2019</option>
+            <option value="5">2020-2029</option>
+        </select>
+        <button type="submit" name="btn">Buscar</button>
+    </form>
 </body>
 
 </html>

@@ -8,7 +8,6 @@ use App\Models\Actor;
 use App\Models\Film;
 
 
-
 class FilmActorFakerSeeder extends Seeder
 {
     /**
