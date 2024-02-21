@@ -1,14 +1,17 @@
 <?php
 
 namespace App\Http\Controllers;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Http\Request;
+use App\Models\Actor;
+
 
 class ActorController extends Controller
 {
     /* READ ACTORS FROM DDBB WITH QB */
     public static function readActors() {
-        $actors = DB::table('actors')->get();
+        // $actors = DB::table('actors')->get();
+        $actors = Actor::all(); //Obtenemos TODOS los registros del modelo
         return $actors;
     }
 
@@ -16,20 +19,10 @@ class ActorController extends Controller
     public function listOfActors(){
         $title = "Listado de Actores";
         $actors = ActorController::readActors();
-        // dd($actors);
 
-        // $actor = [
-        //     "name"=>$_GET["id"],
-        //     "surname"=>$_GET["surname"],
-        //     "birthday"=>$_GET["birthday"],
-        //     "country"=>$_GET["country"],
-        //     "img_url"=>$_GET["img_url"],
-        //     "duration"=>$_GET["duration"]
-        // ];
+        // $arrayActors = $actors->toArray();
 
-        $arrayActors = $actors->toArray();
-
-        return view('actors.list', ["actors" => $arrayActors, "title" => $title]);
+        return view('actors.list', ["actors" => $actors, "title" => $title]);
     }
 
     /* LISTA DE ACTORES POR DECADA */
@@ -52,10 +45,13 @@ class ActorController extends Controller
     }
 
     public function deleteActor($id){
-        $actor = DB::table('actors');
+        $actor = Actor::find($id);
+        
+        // $actor = DB::table('actors');
         if(!$actor){
-        return response()->json(['action' => 'delete', 'status' => false]);
+            return response()->json(['action' => 'delete', 'status' => false]);
         }
+        $actor->delete();
         $deleted = $actor->delete($id);
         return response()->json(['action' => 'delete', 'status' => $deleted]);
     }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
+use App\Models\Film;
 
 
 class FilmController extends Controller
@@ -13,9 +14,10 @@ class FilmController extends Controller
      */
     public static function readFilms(): array {
         $filmsfromStorage = json_decode(Storage::get('public/films.json'), true);
-        $filmsfromDB = DB::table('films')->get()->toArray();
+        // $filmsfromDB = DB::table('films')->get()->toArray();
+        $filmModel = Film::all()->toArray(); //Obtenemos TODOS los registros del modelo
         $filmsfromDBArray = [];
-            foreach ($filmsfromDB as $film) {
+            foreach ($filmModel as $film) {
             $filmsfromDBArray[] = (array) $film;
         }
  
